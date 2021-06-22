@@ -1,24 +1,27 @@
-"""
-скриптр сервера
-"""
+"""скриптр сервера"""
 from socket import *
-import json
 from json_generator import *
+from sys import argv
 
 
-def response(code, msg):
+def response(code, msg_resp):
     response_msg = {
         "response": code,
-        "alert": msg
+        "alert": msg_resp
     }
     return json.dumps(response_msg)
 
 
+if len(argv) == 1:
+    address = 'localhost'
+    port = 7777
+else:
+    address = argv[1]
+    port = int(argv[2])
+
 s = socket(AF_INET, SOCK_STREAM)  # Создает сокет TCP
-s.bind(('', 8888))  # Присваивает порт 8888
-s.listen(5)  # Переходит в режим ожидания запросов;
-# Одновременно обслуживает не более
-# 5 запросов.
+s.bind((address, port))
+s.listen(5)
 while True:
     client, addr = s.accept()
     data = client.recv(1000000)

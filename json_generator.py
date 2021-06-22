@@ -1,13 +1,15 @@
 import json
-import datetime
+import datetime, time
 
 
 def presence():
-    """пишем в json файл"""
+    """конвертим в json """
+    dt = datetime.datetime.now()
+    value = datetime.datetime.fromtimestamp(time.mktime(dt.timetuple()))
     presence_msg = {
         "action": "presence",
-        "time": 123
-        # TODO заменить число датой
+        "time": value.strftime('%Y-%m-%d %H:%M:%S')
+
     }
 
     return json.dumps(presence_msg)
